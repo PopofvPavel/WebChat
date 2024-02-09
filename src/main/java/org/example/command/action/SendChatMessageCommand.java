@@ -31,7 +31,9 @@ public class SendChatMessageCommand implements Command {
 
         if (message != null && !message.isEmpty()) {
 
-            DataBase.getMessages().add(new ChatMessage(message, user));
+            DataBase.addMessage(new ChatMessage(message, user));
+            // Обновляем сообщения, т.к. в контексте лежит копия, чтобы оригинал нельзя было изменить из-вне
+            request.getServletContext().setAttribute("messages", DataBase.getMessages());
         }
         return new RedirectResult(COMMAND_SHOW_CHAT_PAGE);
     }

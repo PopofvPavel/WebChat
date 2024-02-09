@@ -25,12 +25,20 @@ public final class DataBase {
     }
 
     public static List<ChatMessage> getMessages() {
-        return messages;
+        synchronized (messages) {
+            return new ArrayList<>(messages);
+        }
+    }
+
+    public static void addMessage(ChatMessage chatMessage) {
+        synchronized (messages) {
+            messages.add(chatMessage);
+        }
     }
 
     public static List<User> getUsers() {
-        System.out.println("GEt users = " + users);
         return users;
+
     }
 
     public static void close() {
